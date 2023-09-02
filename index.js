@@ -85,4 +85,6 @@ for (const sheetName in dataBySheetName) {
     XLSX.utils.book_append_sheet(workbook, newData, sheetName);
 }
 
+workbook.SheetNames.splice(0, 1);
+
 XLSX.writeFile(workbook, FILE_PATH_NEW, { bookType: "xlsx" });
