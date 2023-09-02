@@ -1,9 +1,9 @@
 import XLSX from "xlsx";
-import { thousandToNumber, toThousand } from "./format.js";
+import { thousandToNumber, toThousand, formatDate } from "./format.js";
 import Decimal from "decimal.js";
 
 const FILE_PATH = "./基金.xlsx";
-const FILE_PATH_NEW = "/統整基金.xlsx";
+const FILE_PATH_NEW = `./統整基金_${formatDate(new Date())}.xlsx`;
 const DEFAULT_SHEET = "輸入";
 const LABEL_SHEET = "表";
 const LABEL_CURRENCY = "幣別";
@@ -17,8 +17,8 @@ let workbook = XLSX.readFile(FILE_PATH);
 const newSheet = workbook.Sheets[DEFAULT_SHEET];
 const newWorkbook = XLSX.utils.book_new();
 XLSX.utils.book_append_sheet(newWorkbook, newSheet, DEFAULT_SHEET);
-XLSX.writeFile(newWorkbook, FILE_PATH, { bookType: "xlsx", raw: true });
-workbook = XLSX.readFile(FILE_PATH);
+XLSX.writeFile(newWorkbook, FILE_PATH_NEW, { bookType: "xlsx" });
+workbook = XLSX.readFile(FILE_PATH_NEW);
 
 // 表分類
 const dataBySheetName = {};
@@ -85,4 +85,4 @@ for (const sheetName in dataBySheetName) {
     XLSX.utils.book_append_sheet(workbook, newData, sheetName);
 }
 
-XLSX.writeFile(workbook, FILE_PATH, { bookType: "xlsx" });
+XLSX.writeFile(workbook, FILE_PATH_NEW, { bookType: "xlsx" });
